@@ -1,0 +1,77 @@
+{
+  "name": "react-headless-multi-stepper",
+  "author": "Thijs Smudde",
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=12.13"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "NODE_ENV=production tsdx build",
+    "test": "tsdx test --watchAll ",
+    "test-coverage": "tsdx test --watchAll --collectCoverage",
+    "test-coverage-html": "tsdx test --watchAll --collectCoverage --coverageReporters 'html'",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook",
+    "build:css": "tailwindcss build -o storybook-static/tailwind.css --minify"
+  },
+  "dependencies": {
+    "classnames": "2.3.1"
+  },
+  "peerDependencies": {
+    "react": ">=16"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "module": "dist/react-headless-multi-stepper.esm.js",
+  "size-limit": [
+    {
+      "path": "dist/react-headless-multi-stepper.cjs.production.min.js",
+      "limit": "10 KB"
+    },
+    {
+      "path": "dist/react-headless-multi-stepper.esm.js",
+      "limit": "10 KB"
+    }
+  ],
+  "devDependencies": {
+    "@babel/core": "^7.18.13",
+    "@size-limit/preset-small-lib": "^8.0.1",
+    "@storybook/addon-essentials": "^6.5.10",
+    "@storybook/addon-info": "^5.3.21",
+    "@storybook/addon-links": "^6.5.10",
+    "@storybook/addons": "^6.5.10",
+    "@storybook/react": "^6.5.10",
+    "@types/react": "^18.0.18",
+    "@types/react-dom": "^18.0.6",
+    "@tailwindcss/forms": "0.3.4",
+    "@tailwindcss/postcss7-compat": "2.0.3",
+    "babel-loader": "^8.2.5",
+    "husky": "^8.0.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-is": "^18.2.0",
+    "size-limit": "^8.0.1",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.4.0",
+    "typescript": "^4.8.2",
+    "postcss": "7",
+    "prettier": "2.4.1",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat",
+    "rollup-plugin-postcss": "4.0.0"
+  }
+}
