@@ -1,70 +1,104 @@
-import classNames from "classnames";
 import React from "react";
-import { IMultiStepperProps, MainStep, SubStep } from "./MultiStepper.d";
+import // MainStep,
+// SubStep,
+"../@interfaces/interfaces";
+import {
+  HorizontalStep,
+  IHorizontalStep,
+} from "../HorizontalStep/HorizontalStep";
+import { IVerticalStep, VerticalStep } from "../VerticalStep/VerticalStep";
 
-const MultiStepper = ({
-  dataTestId,
-  steps,
-  renderMainLabel,
-  renderSubLabel,
-  renderContent,
+interface IMultiStepperProps {
+  // dataTestId?: string;
+  // steps: MainStep[];
+  // renderMainLabel: (label: string) => React.ReactNode;
+  // renderSubLabel: (label: string) => React.ReactNode;
+  // renderContent: (content: React.ReactNode) => React.ReactNode;
+  className?: string;
+  children: React.ReactElement<IVerticalStep>[];
+}
+
+// @TODO check preconditions
+// >= 1 main step
+// >= 1 sub step per main step
+// labels of main steps must be unique
+// labels of sub steps must be unique
+const MultiStepperRoot = ({
+  // dataTestId,
+  // steps,
+  // renderMainLabel,
+  // renderSubLabel,
+  // renderContent,
+  className,
+  // @TODO check that only VerticalSteps can appear as children
+  children,
 }: IMultiStepperProps) => {
-  const [activeMainStep, setActiveMainStep] = React.useState<MainStep>(
-    steps[0],
-  );
-  const [activeSubStep, setActiveSubStep] = React.useState<SubStep>(
-    steps[0].steps[0],
-  );
+  const verticalSteps = children;
+  const [activeMainStep, setActiveMainStep] = React.useState<number>(0);
+  const [activeSubStep, setActiveSubStep] = React.useState<number>(0);
 
-  const subSteps = React.useMemo(
-    () => steps.find((step) => step.label === activeMainStep.label),
-    [steps, activeMainStep],
-  )!;
+  const horizontalSteps = verticalSteps[activeMainStep].props
+    .children as React.ReactElement<IHorizontalStep>[];
 
-  const onClickMainStep = (mainStep: MainStep) => {
-    setActiveMainStep(mainStep);
-    setActiveSubStep(mainStep.steps[0]);
+  const activateVerticalStep = (label: string) => {
+    const activeVerticalStep = verticalSteps.findIndex(
+      (verticalStep) => verticalStep.props.label === label,
+    );
+
+    setActiveMainStep(activeVerticalStep);
+    setActiveSubStep(0);
   };
 
-  const onClickSubStep = (subStep: SubStep) => setActiveSubStep(subStep);
+  const activateHorizontalStep = (label: string) => {
+    const activeHorizontalStep = horizontalSteps.findIndex(
+      (horizontalStep) => horizontalStep.props.label === label,
+    );
+
+    setActiveSubStep(activeHorizontalStep);
+  };
 
   return (
-    <>
-      <div className="flex justify-between w-full pb-5 mb-5 border-b">
-        {steps.map((mainStep, index) => (
+    <div className={className}>
+      <div className="flex border border-pink-500">
+        {verticalSteps.map((verticalStep) => (
           <div
-            key={mainStep.label}
-            data-testid={dataTestId?.concat(`-main-${index}`)}
-            onClick={() => onClickMainStep(mainStep)}
-            className={classNames("cursor-pointer", {
-              "text-pink-500": mainStep === activeMainStep,
-            })}
+            onClick={() =>
+              activateVerticalStep(verticalStep.props.label as string)
+            }
+            className="cursor-pointer"
           >
-            {renderMainLabel(mainStep.label)}
+            {verticalStep.props.label}
           </div>
         ))}
       </div>
 
       <div className="flex">
-        <div className="space-y-4">
-          {subSteps.steps.map((subStep, index) => (
+        <div className="flex flex-col">
+          {horizontalSteps.map((horizontalStep) => (
             <div
-              key={subStep.label}
-              data-testid={dataTestId?.concat(`-sub-${index}`)}
-              onClick={() => onClickSubStep(subStep)}
-              className={classNames("cursor-pointer", {
-                "text-pink-500": subStep === activeSubStep,
-              })}
+              onClick={() => activateHorizontalStep(horizontalStep.props.label)}
+              className="cursor-pointer"
             >
-              {renderSubLabel(subStep.label)}
+              {horizontalStep.props.label}
             </div>
           ))}
         </div>
-        <div className="p-10">{renderContent(activeSubStep.content)}</div>
+        <div className="flex flex-col">
+          {horizontalSteps[activeSubStep].props.children({
+            goNext: 
+          })}
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 
+/**
+ * Re-exports all components belonging to a Table from the Table namespace
+ */
+export const MultiStepper = Object.assign(MultiStepperRoot, {
+  VerticalStep,
+  HorizontalStep,
+});
+
 export type { IMultiStepperProps };
-export { MultiStepper };

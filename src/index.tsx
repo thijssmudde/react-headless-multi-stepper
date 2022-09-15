@@ -1,2 +1,4 @@
+export * from "./@interfaces/interfaces";
+export * from "./HorizontalStep/HorizontalStep";
 export * from "./MultiStepper/MultiStepper";
-export * from "./MultiStepper/MultiStepper.d";
+export * from "./VerticalStep/VerticalStep";

@@ -1,0 +1,37 @@
+ 
+// https://devrecipes.net/step-progres-bar-with-pure-css/
+ {/* <div className="relative w-full">
+        <div className="before:absolute before:border before:top-[5px] before:-z-10 before:w-[90%] before:left-[20px] before:border-gray-200" />
+
+        <div className="flex justify-between pb-5 mb-5 border-b">
+          {steps.map((mainStep, index) => (
+            <HorizontalStep
+              key={mainStep.label}
+              active={mainStep === activeMainStep}
+              dataTestId={dataTestId?.concat(`-main-${index}`)}
+              mainStep={mainStep}
+              activeMainStep={activeMainStep}
+              onClick={onClickMainStep}
+            >
+              {renderMainLabel(mainStep.label)}
+            </HorizontalStep>
+          ))}
+        </div>
+      </div>
+
+      <div className="flex">
+        <div className="space-y-4">
+          {subSteps.steps.map((subStep, index) => (
+            <VerticalStep
+              key={subStep.label}
+              dataTestId={dataTestId?.concat(`-sub-${index}`)}
+              subStep={subStep}
+              activeSubStep={activeSubStep}
+              onClick={() => onClickSubStep(subStep)}
+            >
+              {renderSubLabel(subStep.label)}
+            </VerticalStep>
+          ))}
+        </div>
+        <div className="p-10">{renderContent(activeSubStep.content)}</div>
+      </div> */}

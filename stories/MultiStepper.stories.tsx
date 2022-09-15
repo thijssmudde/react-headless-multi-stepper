@@ -1,6 +1,7 @@
 import React from "react";
 import { Meta, Story } from "@storybook/react";
-import { MultiStepper, IMultiStepperProps, MainStep } from "../src";
+import { MultiStepper, IMultiStepperProps } from "../src";
+// import { steps } from "./MultiStepper.testData";
 import "./tailwind.css";
 
 const meta: Meta = {
@@ -20,68 +21,49 @@ const meta: Meta = {
 
 export default meta;
 
-const steps: MainStep[] = [
-  {
-    label: "step 1",
-    steps: [
-      {
-        label: "1.1",
-        content: "-1.1",
-      },
-      {
-        label: "1.2",
-        content: "-1.2",
-      },
-      {
-        label: "1.3",
-        content: "-1.3",
-      },
-    ],
-  },
-  {
-    label: "step 2",
-    steps: [
-      {
-        label: "2.1",
-        content: "-2.1",
-      },
-      {
-        label: "2.2",
-        content: "-2.1",
-      },
-      {
-        label: "2.3",
-        content: "-2.1",
-      },
-    ],
-  },
-  {
-    label: "step 3",
-    steps: [
-      {
-        label: "3.1",
-        content: "-3.1",
-      },
-      {
-        label: "3.2",
-        content: "-3.2",
-      },
-      {
-        label: "3.3",
-        content: "-3.3",
-      },
-    ],
-  },
-];
-
 const Template: Story<IMultiStepperProps> = (args) => (
   <MultiStepper
     {...args}
-    steps={steps}
-    renderMainLabel={(label) => <>{label}</>}
-    renderSubLabel={(label) => <>{label}</>}
-    renderContent={(content) => <>{content}</>}
-  />
+    className="flex flex-col"
+    // mainLabelClassName="flex justify-between pb-5 mb-5 border-b"
+    // renderMainLabel={(label) => <div>{label}</div>}
+    // renderSubLabel={(label) => <>{label}</>}
+    // renderContent={(content) => <>{content}</>}
+  >
+    <MultiStepper.VerticalStep label="step 1">
+      <MultiStepper.HorizontalStep label="1.1">
+        <div className="text-pink-500">Content 1.1</div>
+      </MultiStepper.HorizontalStep>
+      <MultiStepper.HorizontalStep label="1.2">
+        <div className="text-pink-500">Content 1.2</div>
+      </MultiStepper.HorizontalStep>
+      <MultiStepper.HorizontalStep label="1.3">
+        <div className="text-pink-500">Content 1.3</div>
+      </MultiStepper.HorizontalStep>
+    </MultiStepper.VerticalStep>
+    <MultiStepper.VerticalStep label="step 2">
+      <MultiStepper.HorizontalStep label="2.1">
+        <div className="text-pink-500">Content 2.1</div>
+      </MultiStepper.HorizontalStep>
+      <MultiStepper.HorizontalStep label="2.2">
+        <div className="text-pink-500">Content 2.2</div>
+      </MultiStepper.HorizontalStep>
+      <MultiStepper.HorizontalStep label="2.3">
+        <div className="text-pink-500">Content 2.3</div>
+      </MultiStepper.HorizontalStep>
+    </MultiStepper.VerticalStep>
+    <MultiStepper.VerticalStep label="step 3">
+      <MultiStepper.HorizontalStep label="3.1">
+        <div className="text-pink-500">Content 3.1</div>
+      </MultiStepper.HorizontalStep>
+      <MultiStepper.HorizontalStep label="3.2">
+        <div className="text-pink-500">Content 3.2</div>
+      </MultiStepper.HorizontalStep>
+      <MultiStepper.HorizontalStep label="3.3">
+        <div className="text-pink-500">Content 3.3</div>
+      </MultiStepper.HorizontalStep>
+    </MultiStepper.VerticalStep>
+  </MultiStepper>
 );
 
 export const Default = Template.bind({});
