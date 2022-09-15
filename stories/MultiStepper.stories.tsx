@@ -26,10 +26,9 @@ const Template: Story<IMultiStepperProps> = (args) => (
     {...args}
     className="flex flex-col"
     onCompleted={() => alert("onCompleted")}
+    renderMainLabel={(label) => <div className="cursor-pointer">{label}</div>}
+    renderSubLabel={(label) => <div className="cursor-pointer">{label}</div>}
     // mainLabelClassName="flex justify-between pb-5 mb-5 border-b"
-    // renderMainLabel={(label) => <div>{label}</div>}
-    // renderSubLabel={(label) => <>{label}</>}
-    // renderContent={(content) => <>{content}</>}
   >
     <MultiStepper.VerticalStep label="step 1">
       <MultiStepper.HorizontalStep label="1.1">

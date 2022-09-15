@@ -11,9 +11,8 @@ import { IVerticalStep, VerticalStep } from "../VerticalStep/VerticalStep";
 interface IMultiStepperProps {
   // dataTestId?: string;
   // steps: MainStep[];
-  // renderMainLabel: (label: string) => React.ReactNode;
-  // renderSubLabel: (label: string) => React.ReactNode;
-  // renderContent: (content: React.ReactNode) => React.ReactNode;
+  renderMainLabel: (label: string) => React.ReactElement;
+  renderSubLabel: (label: string) => React.ReactElement;
   /**
    * Fires on completion of the entire flow
    */
@@ -30,9 +29,8 @@ interface IMultiStepperProps {
 const MultiStepperRoot = ({
   // dataTestId,
   // steps,
-  // renderMainLabel,
-  // renderSubLabel,
-  // renderContent,
+  renderMainLabel,
+  renderSubLabel,
   onCompleted,
   className,
   // @TODO check that only VerticalSteps can appear as children
@@ -93,38 +91,43 @@ const MultiStepperRoot = ({
 
   return (
     <div className={className}>
-      <div className="flex border border-pink-500">
-        {verticalSteps.map((verticalStep) => (
-          <div
-            key={verticalStep.props.label}
-            onClick={() =>
-              activateVerticalStep(verticalStep.props.label as string)
-            }
-            className="cursor-pointer"
-          >
-            {verticalStep.props.label}
-          </div>
-        ))}
+      <div className="flex">
+        {verticalSteps.map((verticalStep) => {
+          const SubLabel = renderMainLabel(verticalStep.props.label);
+
+          return (
+            <SubLabel.type
+              {...SubLabel.props}
+              key={verticalStep.props.label}
+              onClick={() =>
+                activateVerticalStep(verticalStep.props.label as string)
+              }
+            />
+          );
+        })}
       </div>
 
       <div className="flex">
-        <div className="flex flex-col">
-          {horizontalSteps.map((horizontalStep) => (
-            <div
-              key={horizontalStep.props.label}
-              onClick={() => activateHorizontalStep(horizontalStep.props.label)}
-              className="cursor-pointer"
-            >
-              {horizontalStep.props.label}
-            </div>
-          ))}
-        </div>
-        <div className="flex flex-col">
-          {horizontalSteps[activeSubStep].props.children({
-            goPrevious,
-            goNext,
+        <div>
+          {horizontalSteps.map((horizontalStep) => {
+            const MainLabel = renderSubLabel(horizontalStep.props.label);
+
+            return (
+              <MainLabel.type
+                {...MainLabel.props}
+                key={horizontalStep.props.label}
+                onClick={() =>
+                  activateHorizontalStep(horizontalStep.props.label)
+                }
+              />
+            );
           })}
         </div>
+
+        {horizontalSteps[activeSubStep].props.children({
+          goPrevious,
+          goNext,
+        })}
       </div>
     </div>
   );
