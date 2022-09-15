@@ -8,23 +8,25 @@ interface IHorizontalStep {
   // mainStep: MainStep;
   // activeMainStep: MainStep;
   label: string;
-  children: React.ReactNode;
+  children: ({
+    goPrevious,
+    goNext,
+  }: {
+    goPrevious: () => void;
+    goNext: () => void;
+  }) => React.ReactNode;
   // onClick: (mainStep: MainStep) => void;
 }
 
-const HorizontalStep = ({
-  // dataTestId,
-  // active,
-  // mainStep,
-  // activeMainStep,
-  label,
-  children,
-}: // onClick,
+const HorizontalStep = ({}: // dataTestId,
+// active,
+// mainStep,
+// activeMainStep,
+// label,
+// children,
+// onClick,
 IHorizontalStep) => (
-  <div className="">
-    <div className="">{label}</div>
-    <div className="">{children}</div>
-  </div>
+  <></>
   // <div onClick={() => onClick(mainStep)} className="flex-col cursor-pointer">
   //   <div
   //     className={classNames(

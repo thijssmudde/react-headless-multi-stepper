@@ -32,35 +32,89 @@ const Template: Story<IMultiStepperProps> = (args) => (
   >
     <MultiStepper.VerticalStep label="step 1">
       <MultiStepper.HorizontalStep label="1.1">
-        <div className="text-pink-500">Content 1.1</div>
+        {({ goPrevious, goNext }) => (
+          <div>
+            <span className="text-pink-500">Content 1.1</span>
+            <button onClick={goPrevious}>Previous</button>
+            <button onClick={goNext}>Next</button>
+          </div>
+        )}
       </MultiStepper.HorizontalStep>
       <MultiStepper.HorizontalStep label="1.2">
-        <div className="text-pink-500">Content 1.2</div>
+        {({ goPrevious, goNext }) => (
+          <div>
+            <span className="text-pink-500">Content 1.2</span>
+            <button onClick={goPrevious}>Previous</button>
+            <button onClick={goNext}>Next</button>
+          </div>
+        )}
       </MultiStepper.HorizontalStep>
       <MultiStepper.HorizontalStep label="1.3">
-        <div className="text-pink-500">Content 1.3</div>
+        {({ goPrevious, goNext }) => (
+          <div>
+            <span className="text-pink-500">Content 1.3</span>
+            <button onClick={goPrevious}>Previous</button>
+            <button onClick={goNext}>Next</button>
+          </div>
+        )}
       </MultiStepper.HorizontalStep>
     </MultiStepper.VerticalStep>
     <MultiStepper.VerticalStep label="step 2">
       <MultiStepper.HorizontalStep label="2.1">
-        <div className="text-pink-500">Content 2.1</div>
+        {({ goPrevious, goNext }) => (
+          <div>
+            <span className="text-pink-500">Content 2.1</span>
+            <button onClick={goPrevious}>Previous</button>
+            <button onClick={goNext}>Next</button>
+          </div>
+        )}
       </MultiStepper.HorizontalStep>
       <MultiStepper.HorizontalStep label="2.2">
-        <div className="text-pink-500">Content 2.2</div>
+        {({ goPrevious, goNext }) => (
+          <div>
+            <span className="text-pink-500">Content 2.2</span>
+            <button onClick={goPrevious}>Previous</button>
+            <button onClick={goNext}>Next</button>
+          </div>
+        )}
       </MultiStepper.HorizontalStep>
       <MultiStepper.HorizontalStep label="2.3">
-        <div className="text-pink-500">Content 2.3</div>
+        {({ goPrevious, goNext }) => (
+          <div>
+            <span className="text-pink-500">Content 2.3</span>
+            <button onClick={goPrevious}>Previous</button>
+            <button onClick={goNext}>Next</button>
+          </div>
+        )}
       </MultiStepper.HorizontalStep>
     </MultiStepper.VerticalStep>
     <MultiStepper.VerticalStep label="step 3">
       <MultiStepper.HorizontalStep label="3.1">
-        <div className="text-pink-500">Content 3.1</div>
+        {({ goPrevious, goNext }) => (
+          <div>
+            <span className="text-pink-500">Content 3.1</span>
+            <button onClick={goPrevious}>Previous</button>
+            <button onClick={goNext}>Next</button>
+          </div>
+        )}
       </MultiStepper.HorizontalStep>
       <MultiStepper.HorizontalStep label="3.2">
-        <div className="text-pink-500">Content 3.2</div>
+        {({ goPrevious, goNext }) => (
+          <div>
+            <span className="text-pink-500">Content 3.2</span>
+            <button onClick={goPrevious}>Previous</button>
+            <button onClick={goNext}>Next</button>
+          </div>
+        )}
       </MultiStepper.HorizontalStep>
       <MultiStepper.HorizontalStep label="3.3">
-        <div className="text-pink-500">Content 3.3</div>
+        {({ goPrevious, goNext }) => (
+          <div>
+            <span className="text-pink-500">Content 3.3</span>
+            <button onClick={goPrevious}>Previous</button>
+            <button onClick={goNext}>Next</button>
+          </div>
+        )}
       </MultiStepper.HorizontalStep>
     </MultiStepper.VerticalStep>
   </MultiStepper>

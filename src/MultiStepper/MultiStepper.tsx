@@ -57,11 +57,34 @@ const MultiStepperRoot = ({
     setActiveSubStep(activeHorizontalStep);
   };
 
+  const goNext = () => {
+    // Move through sub steps firstt
+    if (activeSubStep + 1 < horizontalSteps.length) {
+      setActiveSubStep(activeSubStep + 1);
+    } else if (activeMainStep + 1 < verticalSteps.length) {
+      setActiveMainStep(activeMainStep + 1);
+      setActiveSubStep(0);
+    }
+  };
+
+  const goPrevious = () => {
+    // Move through sub steps firstt
+    if (activeSubStep > 0) {
+      setActiveSubStep(activeSubStep - 1);
+    } else if (activeMainStep > 0) {
+      setActiveMainStep(activeMainStep - 1);
+      const horizontalSteps = verticalSteps[activeMainStep - 1].props
+        .children as React.ReactElement<IHorizontalStep>[];
+      setActiveSubStep(horizontalSteps.length - 1);
+    }
+  };
+
   return (
     <div className={className}>
       <div className="flex border border-pink-500">
         {verticalSteps.map((verticalStep) => (
           <div
+            key={verticalStep.props.label}
             onClick={() =>
               activateVerticalStep(verticalStep.props.label as string)
             }
@@ -76,6 +99,7 @@ const MultiStepperRoot = ({
         <div className="flex flex-col">
           {horizontalSteps.map((horizontalStep) => (
             <div
+              key={horizontalStep.props.label}
               onClick={() => activateHorizontalStep(horizontalStep.props.label)}
               className="cursor-pointer"
             >
@@ -85,7 +109,8 @@ const MultiStepperRoot = ({
         </div>
         <div className="flex flex-col">
           {horizontalSteps[activeSubStep].props.children({
-            goNext: 
+            goPrevious,
+            goNext,
           })}
         </div>
       </div>
