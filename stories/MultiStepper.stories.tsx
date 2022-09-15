@@ -25,6 +25,7 @@ const Template: Story<IMultiStepperProps> = (args) => (
   <MultiStepper
     {...args}
     className="flex flex-col"
+    onCompleted={() => alert("onCompleted")}
     // mainLabelClassName="flex justify-between pb-5 mb-5 border-b"
     // renderMainLabel={(label) => <div>{label}</div>}
     // renderSubLabel={(label) => <>{label}</>}

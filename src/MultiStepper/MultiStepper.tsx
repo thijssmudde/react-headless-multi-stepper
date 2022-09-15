@@ -14,6 +14,10 @@ interface IMultiStepperProps {
   // renderMainLabel: (label: string) => React.ReactNode;
   // renderSubLabel: (label: string) => React.ReactNode;
   // renderContent: (content: React.ReactNode) => React.ReactNode;
+  /**
+   * Fires on completion of the entire flow
+   */
+  onCompleted: () => void;
   className?: string;
   children: React.ReactElement<IVerticalStep>[];
 }
@@ -29,6 +33,7 @@ const MultiStepperRoot = ({
   // renderMainLabel,
   // renderSubLabel,
   // renderContent,
+  onCompleted,
   className,
   // @TODO check that only VerticalSteps can appear as children
   children,
@@ -64,6 +69,13 @@ const MultiStepperRoot = ({
     } else if (activeMainStep + 1 < verticalSteps.length) {
       setActiveMainStep(activeMainStep + 1);
       setActiveSubStep(0);
+    }
+
+    if (
+      activeMainStep + 1 >= verticalSteps.length &&
+      activeSubStep + 1 >= horizontalSteps.length
+    ) {
+      onCompleted();
     }
   };
 
