@@ -21,14 +21,13 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<IMultiStepperProps> = (args) => (
+const MultiStepperStory: Story<IMultiStepperProps> = (args) => (
   <MultiStepper
     {...args}
     className="flex flex-col"
     onCompleted={() => alert("onCompleted")}
     renderMainLabel={(label) => <div className="cursor-pointer">{label}</div>}
     renderSubLabel={(label) => <div className="cursor-pointer">{label}</div>}
-    // mainLabelClassName="flex justify-between pb-5 mb-5 border-b"
   >
     <MultiStepper.VerticalStep label="step 1">
       <MultiStepper.HorizontalStep label="1.1">
@@ -120,6 +119,61 @@ const Template: Story<IMultiStepperProps> = (args) => (
   </MultiStepper>
 );
 
-export const Default = Template.bind({});
+export const Default = MultiStepperStory.bind({});
 
 Default.args = {};
+
+const SingleStepStory: Story<IMultiStepperProps> = (args) => (
+  <MultiStepper
+    {...args}
+    className="flex flex-col"
+    onCompleted={() => alert("onCompleted")}
+    renderMainLabel={(label) => <div className="cursor-pointer">{label}</div>}
+    renderSubLabel={(label) => <div className="cursor-pointer">{label}</div>}
+  >
+    <MultiStepper.VerticalStep label="step 1">
+      <MultiStepper.HorizontalStep label="1.1">
+        {({ goPrevious, goNext }) => (
+          <div>
+            <span className="text-pink-500">Content 1.1</span>
+            <button onClick={goPrevious}>Previous</button>
+            <button onClick={goNext}>Next</button>
+          </div>
+        )}
+      </MultiStepper.HorizontalStep>
+      <MultiStepper.HorizontalStep label="1.2">
+        {({ goPrevious, goNext }) => (
+          <div>
+            <span className="text-pink-500">Content 1.2</span>
+            <button onClick={goPrevious}>Previous</button>
+            <button onClick={goNext}>Next</button>
+          </div>
+        )}
+      </MultiStepper.HorizontalStep>
+      <MultiStepper.HorizontalStep label="1.3">
+        {({ goPrevious, goNext }) => (
+          <div>
+            <span className="text-pink-500">Content 1.3</span>
+            <button onClick={goPrevious}>Previous</button>
+            <button onClick={goNext}>Next</button>
+          </div>
+        )}
+      </MultiStepper.HorizontalStep>
+    </MultiStepper.VerticalStep>
+    <MultiStepper.VerticalStep label="step 2">
+      <MultiStepper.HorizontalStep label="2.1">
+        {({ goPrevious, goNext }) => (
+          <div>
+            <span className="text-pink-500">Content 2.1</span>
+            <button onClick={goPrevious}>Previous</button>
+            <button onClick={goNext}>Next</button>
+          </div>
+        )}
+      </MultiStepper.HorizontalStep>
+    </MultiStepper.VerticalStep>
+  </MultiStepper>
+);
+
+export const SingleStep = SingleStepStory.bind({});
+
+SingleStep.args = {};

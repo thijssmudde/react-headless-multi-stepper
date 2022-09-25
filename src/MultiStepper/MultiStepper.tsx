@@ -1,7 +1,4 @@
 import React from "react";
-import // MainStep,
-// SubStep,
-"../@interfaces/interfaces";
 import {
   HorizontalStep,
   IHorizontalStep,
@@ -9,8 +6,7 @@ import {
 import { IVerticalStep, VerticalStep } from "../VerticalStep/VerticalStep";
 
 interface IMultiStepperProps {
-  // dataTestId?: string;
-  // steps: MainStep[];
+  dataTestId?: string;
   renderMainLabel: (label: string) => React.ReactElement;
   renderSubLabel: (label: string) => React.ReactElement;
   /**
@@ -26,14 +22,14 @@ interface IMultiStepperProps {
 // >= 1 sub step per main step
 // labels of main steps must be unique
 // labels of sub steps must be unique
+// @TODO add disabledMainSteps
+// @TODO add disabledSubSteps
 const MultiStepperRoot = ({
-  // dataTestId,
-  // steps,
+  dataTestId,
   renderMainLabel,
   renderSubLabel,
   onCompleted,
   className,
-  // @TODO check that only VerticalSteps can appear as children
   children,
 }: IMultiStepperProps) => {
   const verticalSteps = children;
@@ -89,15 +85,17 @@ const MultiStepperRoot = ({
     }
   };
 
+  console.log({ horizontalSteps });
+
   return (
-    <div className={className}>
+    <div data-testid={dataTestId} className={className}>
       <div className="flex">
         {verticalSteps.map((verticalStep) => {
-          const SubLabel = renderMainLabel(verticalStep.props.label);
+          const MainLabel = renderMainLabel(verticalStep.props.label);
 
           return (
-            <SubLabel.type
-              {...SubLabel.props}
+            <MainLabel.type
+              {...MainLabel.props}
               key={verticalStep.props.label}
               onClick={() =>
                 activateVerticalStep(verticalStep.props.label as string)
@@ -109,19 +107,24 @@ const MultiStepperRoot = ({
 
       <div className="flex">
         <div>
-          {horizontalSteps.map((horizontalStep) => {
-            const MainLabel = renderSubLabel(horizontalStep.props.label);
+          {Array.isArray(horizontalSteps) && horizontalSteps.length > 0
+            ? horizontalSteps.map((horizontalStep) => {
+                const SubLabel = renderSubLabel(horizontalStep.props.label);
 
-            return (
-              <MainLabel.type
-                {...MainLabel.props}
-                key={horizontalStep.props.label}
-                onClick={() =>
-                  activateHorizontalStep(horizontalStep.props.label)
-                }
-              />
-            );
-          })}
+                return (
+                  <SubLabel.type
+                    {...SubLabel.props}
+                    key={horizontalStep.props.label}
+                    onClick={() =>
+                      activateHorizontalStep(horizontalStep.props.label)
+                    }
+                  />
+                );
+              })
+            : null}
+
+          {/* {!Array.isArray(horizontalSteps)
+            ? renderSingleSub : null} */}
         </div>
 
         {horizontalSteps[activeSubStep].props.children({
