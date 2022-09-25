@@ -10,14 +10,15 @@ interface IVerticalStep {
    * String that will be displayed to the user in stepper
    */
   label: string;
+  /**
+   * Disable this step to skip it.
+   */
+  // disabled?: boolean;
   children:
     | React.ReactElement<IHorizontalStep>
     | React.ReactElement<IHorizontalStep>[];
 }
 
-/**
- * The main step in the MultiStepper
- */
 const VerticalStep = ({}: IVerticalStep) => <></>;
 
 export type { IVerticalStep };

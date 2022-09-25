@@ -7,15 +7,47 @@ interface IMultiStepperProps {
   /**
    * Root element of the MultiStepper.
    */
-  RootContainer: React.ReactElement;
+  RootContainer?: React.ReactElement;
+  /**
+   * Containing element for the main labels
+   */
+  MainLabelContainer?: React.ReactElement;
+  /**
+   * Containing element for the sub labels
+   */
+  SubLabelContainer?: React.ReactElement;
+  /**
+   * Containing element for the SubLabelContainer and step content
+   */
+  ContentContainer?: React.ReactElement;
   /**
    * Render prop for the label of the vertical step
    */
-  renderMainLabel: (label: string, name: string) => React.ReactElement;
+  renderMainLabel: ({
+    isActive,
+    label,
+    name,
+  }: // disabled,
+  {
+    isActive: boolean;
+    label: string;
+    name: string;
+    // disabled?: boolean;
+  }) => React.ReactElement;
   /**
    * Render prop for the label of the horizontal step
    */
-  renderSubLabel: (label: string, name: string) => React.ReactElement;
+  renderSubLabel: ({
+    isActive,
+    label,
+    name,
+  }: // disabled,
+  {
+    isActive: boolean;
+    label: string;
+    name: string;
+    // disabled?: boolean;
+  }) => React.ReactElement;
   /**
    * Fires on completion of the entire flow
    */
@@ -26,20 +58,20 @@ interface IMultiStepperProps {
   children: React.ReactElement<IVerticalStep>[];
 }
 
-// @TODO check preconditions
-// - > 1 main step
-// - >= 1 sub step per main step
-// @TODO add disabledMainSteps: through props of VerticalStep
-// @TODO add disabledSubSteps: through props of Horizontaltep
+// @TODO finish disabled mainStep/subStep
 const MultiStepperRoot = ({
   dataTestId,
   renderMainLabel,
   renderSubLabel,
   onCompleted,
-  RootContainer,
+  RootContainer = <div />,
+  MainLabelContainer = <div />,
+  SubLabelContainer = <div />,
+  ContentContainer = <div />,
   children,
 }: IMultiStepperProps) => {
   const verticalSteps = children;
+
   const [activeMainStep, setActiveMainStep] = React.useState<number>(0);
   const [activeSubStep, setActiveSubStep] = React.useState<number>(0);
 
@@ -57,21 +89,35 @@ const MultiStepperRoot = ({
     }
   }, [horizontalSteps]);
 
-  // Names of all sub steps should be unique
+  // Get an array of all sub steps
+  // const allSteps =
   React.useMemo(() => {
     const horizontalNames = verticalSteps
       .map(({ props: { children } }) => children)
       .map((horizontalStep) => {
         if (Array.isArray(horizontalStep)) {
-          return horizontalStep.map(({ props: { name } }) => name);
+          return horizontalStep.map(
+            ({
+              props: {
+                name,
+                // disabled
+              },
+            }) =>
+              // disabled ? undefined : name,
+              name,
+          );
         } else {
-          return (
-            horizontalSteps as unknown as React.ReactElement<IHorizontalStep>
-          ).props.name;
+          const step =
+            horizontalStep as unknown as React.ReactElement<IHorizontalStep>;
+
+          // return step.props.disabled ? undefined : step.props.name;
+          return step.props.name;
         }
       })
-      .flat();
+      .flat()
+      .filter((item) => item !== undefined);
 
+    // Names of all sub steps should be unique
     if (horizontalNames.length !== new Set(horizontalNames).size) {
       throw new Error(
         `Names for horizontal steps: ${horizontalNames.join(
@@ -79,7 +125,9 @@ const MultiStepperRoot = ({
         )} are not unique`,
       );
     }
-  }, [horizontalSteps]);
+
+    // return horizontalNames;
+  }, [verticalSteps]);
 
   const activateVerticalStep = (name: string) => {
     const activeVerticalStep = verticalSteps.findIndex(
@@ -99,7 +147,7 @@ const MultiStepperRoot = ({
   };
 
   const goNext = () => {
-    // Move through sub steps firstt
+    // Move through sub steps first
     if (activeSubStep + 1 < horizontalSteps.length) {
       setActiveSubStep(activeSubStep + 1);
     } else if (activeMainStep + 1 < verticalSteps.length) {
@@ -110,7 +158,7 @@ const MultiStepperRoot = ({
     if (
       (activeMainStep + 1 >= verticalSteps.length &&
         activeSubStep + 1 >= horizontalSteps.length) ||
-      // There is only one substep
+      // If there is only one substep
       (horizontalSteps.length === undefined &&
         activeMainStep + 1 >= verticalSteps.length)
     ) {
@@ -134,37 +182,55 @@ const MultiStepperRoot = ({
 
   return (
     <RootContainer.type data-testid={dataTestId} {...RootContainer.props}>
-      <div className="flex">
+      <MainLabelContainer.type {...MainLabelContainer.props}>
         {/* Labels of the vertical steps */}
-        {verticalSteps.map(({ props: { label, name } }) => {
-          const MainLabel = renderMainLabel(label, name);
+        {verticalSteps.map(({ props }) => {
+          const activeIndex = verticalSteps.findIndex(
+            (step) => step.props.name === props.name,
+          );
+          const isActive = activeIndex === activeMainStep;
+          const MainLabel = renderMainLabel({ ...props, isActive });
 
           return (
             <MainLabel.type
               {...MainLabel.props}
-              key={name}
-              onClick={() => activateVerticalStep(name)}
+              key={props.name}
+              onClick={
+                () =>
+                  // !props.disabled ?
+                  activateVerticalStep(props.name)
+                //  : undefined
+              }
             />
           );
         })}
-      </div>
+      </MainLabelContainer.type>
 
-      <div className="flex">
+      <ContentContainer.type {...ContentContainer.props}>
         {multipleSubSteps ? (
-          <div>
+          <SubLabelContainer.type {...SubLabelContainer.props}>
             {/* Labels of the horizontal steps */}
-            {horizontalSteps.map(({ props: { label, name } }) => {
-              const SubLabel = renderSubLabel(label, name);
+            {horizontalSteps.map(({ props }) => {
+              const activeIndex = horizontalSteps.findIndex(
+                (step) => step.props.name === props.name,
+              );
+              const isActive = activeIndex === activeSubStep;
+              const SubLabel = renderSubLabel({ ...props, isActive });
 
               return (
                 <SubLabel.type
                   {...SubLabel.props}
-                  key={name}
-                  onClick={() => activateHorizontalStep(name)}
+                  key={props.name}
+                  onClick={
+                    () =>
+                      // !props.disabled ?
+                      activateHorizontalStep(props.name)
+                    // : undefined
+                  }
                 />
               );
             })}
-          </div>
+          </SubLabelContainer.type>
         ) : null}
 
         {multipleSubSteps
@@ -178,7 +244,7 @@ const MultiStepperRoot = ({
               goPrevious,
               goNext,
             })}
-      </div>
+      </ContentContainer.type>
     </RootContainer.type>
   );
 };
@@ -188,7 +254,13 @@ const MultiStepperRoot = ({
  * Each VerticalStep accepts one or multiple HorizontalStep components.
  */
 export const MultiStepper = Object.assign(MultiStepperRoot, {
+  /**
+   * The main step in the MultiStepper
+   */
   VerticalStep,
+  /**
+   * The sub step in the MultiStepper, should be inside a VerticalStepper
+   */
   HorizontalStep,
 });
 

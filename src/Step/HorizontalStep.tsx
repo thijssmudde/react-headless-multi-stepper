@@ -14,15 +14,16 @@ interface IHorizontalStep {
    * String that will be displayed to the user in stepper
    */
   label: string;
+  /**
+   * Disable this step to skip it.
+   */
+  // disabled?: boolean;
   children: ({
     goPrevious,
     goNext,
-  }: IHorizontalStepChildren) => React.ReactNode;
+  }: IHorizontalStepChildren) => React.ReactElement;
 }
 
-/**
- * The sub step in the MultiStepper, should inside a VerticalStepper
- */
 const HorizontalStep = ({}: IHorizontalStep) => <></>;
 
 export type { IHorizontalStep };
