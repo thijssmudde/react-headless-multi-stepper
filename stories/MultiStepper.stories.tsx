@@ -31,7 +31,7 @@ const ExampleContent = ({
   children: React.ReactNode;
 }) => {
   return (
-    <div className="flex flex-col w-full p-10">
+    <div className="flex flex-col w-full pt-16 pl-10">
       <span className="flex-grow text-pink-500">{children}</span>
       <div className="ml-auto">
         <button
@@ -57,7 +57,7 @@ const MultiStepperStory: Story<IMultiStepperProps> = (args) => (
   <MultiStepper
     {...args}
     RootContainer={<div className="flex flex-col " />}
-    MainLabelContainer={<ul className="flex justify-between w-full" />}
+    MainLabelContainer={<ul className="flex justify-between w-full ml-20" />}
     SubLabelContainer={<ul />}
     ContentContainer={<div className="flex" />}
     onCompleted={() => alert("onCompleted")}
@@ -65,16 +65,20 @@ const MultiStepperStory: Story<IMultiStepperProps> = (args) => (
       <li
         className={classNames(
           "flex items-start w-full cursor-pointer",
-
           {
-            "after:h-[2px] after:w-full  after:mt-[9px] after:ml-[-24px]":
-              index !== verticalSteps.length - 1,
-            "text-pink-500 after:bg-pink-500": index < activeIndex,
-            "after:bg-gray-300": index >= activeIndex,
+            "text-pink-500": index <= activeIndex,
           },
+          index !== verticalSteps.length - 1
+            ? {
+                "after:h-[2px] after:w-full after:mt-[9px] after:ml-[20px] after:mr-[-20px]":
+                  true,
+                "after:bg-pink-500": index < activeIndex,
+                "after:bg-gray-300": index >= activeIndex,
+              }
+            : null,
         )}
       >
-        <div className="flex flex-col">
+        <div className="absolute flex flex-col items-center">
           <div
             className={classNames("w-5 h-5 rounded-full", {
               "bg-pink-500": index <= activeIndex,
@@ -89,17 +93,20 @@ const MultiStepperStory: Story<IMultiStepperProps> = (args) => (
     renderSubLabel={({ activeIndex, label }, index, horizontalSteps) => (
       <li
         className={classNames(
-          "flex h-40 space-x-4 cursor-pointer items-center",
-          {
-            "before:w-[2px] before:h-full before:mt-[100px] before:mr-[-7px] ":
-              index !== horizontalSteps.length - 1,
-            "before:bg-pink-500 text-pink-500": index < activeIndex,
-            "before:bg-gray-300": index >= activeIndex,
-          },
+          "flex h-40 space-x-4 cursor-pointer items-center before:w-[2px] before:mr-[-7px]",
+          { "text-pink-500": index <= activeIndex },
+          index !== horizontalSteps.length - 1
+            ? {
+                "before:h-full before:mt-40": true,
+
+                "before:bg-pink-500": index < activeIndex,
+                "before:bg-gray-300": index >= activeIndex,
+              }
+            : null,
         )}
       >
         <div
-          className={classNames("w-3 h-3 my-auto rounded-full", {
+          className={classNames("w-3 h-3 my-auto rounded-full mr-3", {
             "bg-pink-500": index <= activeIndex,
             "bg-gray-300": index > activeIndex,
           })}
