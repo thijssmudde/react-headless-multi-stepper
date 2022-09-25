@@ -23,31 +23,39 @@ interface IMultiStepperProps {
   /**
    * Render prop for the label of the vertical step
    */
-  renderMainLabel: ({
-    isActive,
-    label,
-    name,
-  }: // disabled,
-  {
-    isActive: boolean;
-    label: string;
-    name: string;
-    // disabled?: boolean;
-  }) => React.ReactElement;
+  renderMainLabel: <T extends unknown>(
+    {
+      activeIndex,
+      label,
+      name,
+    }: // disabled,
+    {
+      activeIndex: number;
+      label: string;
+      name: string;
+      // disabled?: boolean;
+    },
+    index: number,
+    array: T[],
+  ) => React.ReactElement;
   /**
    * Render prop for the label of the horizontal step
    */
-  renderSubLabel: ({
-    isActive,
-    label,
-    name,
-  }: // disabled,
-  {
-    isActive: boolean;
-    label: string;
-    name: string;
-    // disabled?: boolean;
-  }) => React.ReactElement;
+  renderSubLabel: <T extends unknown>(
+    {
+      activeIndex,
+      label,
+      name,
+    }: // disabled,
+    {
+      activeIndex: number;
+      label: string;
+      name: string;
+      // disabled?: boolean;
+    },
+    index: number,
+    array: T[],
+  ) => React.ReactElement;
   /**
    * Fires on completion of the entire flow
    */
@@ -184,12 +192,15 @@ const MultiStepperRoot = ({
     <RootContainer.type data-testid={dataTestId} {...RootContainer.props}>
       <MainLabelContainer.type {...MainLabelContainer.props}>
         {/* Labels of the vertical steps */}
-        {verticalSteps.map(({ props }) => {
-          const activeIndex = verticalSteps.findIndex(
-            (step) => step.props.name === props.name,
+        {verticalSteps.map(({ props }, index, array) => {
+          const MainLabel = renderMainLabel(
+            {
+              ...props,
+              activeIndex: activeMainStep,
+            },
+            index,
+            array,
           );
-          const isActive = activeIndex === activeMainStep;
-          const MainLabel = renderMainLabel({ ...props, isActive });
 
           return (
             <MainLabel.type
@@ -210,12 +221,12 @@ const MultiStepperRoot = ({
         {multipleSubSteps ? (
           <SubLabelContainer.type {...SubLabelContainer.props}>
             {/* Labels of the horizontal steps */}
-            {horizontalSteps.map(({ props }) => {
-              const activeIndex = horizontalSteps.findIndex(
-                (step) => step.props.name === props.name,
+            {horizontalSteps.map(({ props }, index, array) => {
+              const SubLabel = renderSubLabel(
+                { ...props, activeIndex: activeSubStep },
+                index,
+                array,
               );
-              const isActive = activeIndex === activeSubStep;
-              const SubLabel = renderSubLabel({ ...props, isActive });
 
               return (
                 <SubLabel.type

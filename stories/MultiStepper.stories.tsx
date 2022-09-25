@@ -57,41 +57,56 @@ const MultiStepperStory: Story<IMultiStepperProps> = (args) => (
   <MultiStepper
     {...args}
     RootContainer={<div className="flex flex-col " />}
-    MainLabelContainer={
-      <div className="relative flex justify-between w-full px-20" />
-    }
-    SubLabelContainer={<div />}
+    MainLabelContainer={<ul className="flex justify-between w-full" />}
+    SubLabelContainer={<ul />}
     ContentContainer={<div className="flex" />}
     onCompleted={() => alert("onCompleted")}
-    renderMainLabel={({ isActive, label }) => (
-      <div className="flex flex-col cursor-pointer">
-        <div className="w-5 h-5 mx-auto bg-pink-500 rounded-full" />
-        <div
-          className={classNames(
-            // "before:absolute before:border before:top-[5px] before:-z-10 before:w-[90%] before:left-[20px] before:border-gray-200",
-            {
-              "text-pink-500": isActive,
-            },
-          )}
-        >
-          {label}
-        </div>
-      </div>
-    )}
-    renderSubLabel={({ isActive, label }) => (
-      <div className="flex h-40 space-x-4 cursor-pointer">
-        <div className="w-3 h-3 my-auto bg-pink-500 rounded-full" />
+    renderMainLabel={({ activeIndex, label }, index, verticalSteps) => (
+      <li
+        className={classNames(
+          "flex items-start w-full cursor-pointer",
 
-        <div
-          className={classNames("my-auto", {
-            "text-pink-500": isActive,
-            // "opacity-50": disabled,
-            // "cursor-pointer": !disabled,
-          })}
-        >
+          {
+            "after:h-[2px] after:w-full  after:mt-[9px] after:ml-[-24px]":
+              index !== verticalSteps.length - 1,
+            "text-pink-500 after:bg-pink-500": index < activeIndex,
+            "after:bg-gray-300": index >= activeIndex,
+          },
+        )}
+      >
+        <div className="flex flex-col">
+          <div
+            className={classNames("w-5 h-5 rounded-full", {
+              "bg-pink-500": index <= activeIndex,
+              "bg-gray-300": index > activeIndex,
+            })}
+          />
+
           {label}
         </div>
-      </div>
+      </li>
+    )}
+    renderSubLabel={({ activeIndex, label }, index, horizontalSteps) => (
+      <li
+        className={classNames(
+          "flex h-40 space-x-4 cursor-pointer items-center",
+          {
+            "before:w-[2px] before:h-full before:mt-[100px] before:mr-[-7px] ":
+              index !== horizontalSteps.length - 1,
+            "before:bg-pink-500 text-pink-500": index < activeIndex,
+            "before:bg-gray-300": index >= activeIndex,
+          },
+        )}
+      >
+        <div
+          className={classNames("w-3 h-3 my-auto rounded-full", {
+            "bg-pink-500": index <= activeIndex,
+            "bg-gray-300": index > activeIndex,
+          })}
+        />
+
+        {label}
+      </li>
     )}
   >
     <MultiStepper.VerticalStep name="1" label="step 1">
