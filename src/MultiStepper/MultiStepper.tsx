@@ -66,8 +66,10 @@ const MultiStepperRoot = ({
     }
 
     if (
-      activeMainStep + 1 >= verticalSteps.length &&
-      activeSubStep + 1 >= horizontalSteps.length
+      (activeMainStep + 1 >= verticalSteps.length &&
+        activeSubStep + 1 >= horizontalSteps.length) ||
+      // There is only one substep
+      horizontalSteps.length === undefined
     ) {
       onCompleted();
     }
@@ -86,6 +88,8 @@ const MultiStepperRoot = ({
   };
 
   console.log({ horizontalSteps });
+
+  const multipleSubSteps = Array.isArray(horizontalSteps);
 
   return (
     <div data-testid={dataTestId} className={className}>
@@ -106,31 +110,35 @@ const MultiStepperRoot = ({
       </div>
 
       <div className="flex">
-        <div>
-          {Array.isArray(horizontalSteps) && horizontalSteps.length > 0
-            ? horizontalSteps.map((horizontalStep) => {
-                const SubLabel = renderSubLabel(horizontalStep.props.label);
+        {multipleSubSteps ? (
+          <div>
+            {horizontalSteps.map((horizontalStep) => {
+              const SubLabel = renderSubLabel(horizontalStep.props.label);
 
-                return (
-                  <SubLabel.type
-                    {...SubLabel.props}
-                    key={horizontalStep.props.label}
-                    onClick={() =>
-                      activateHorizontalStep(horizontalStep.props.label)
-                    }
-                  />
-                );
-              })
-            : null}
+              return (
+                <SubLabel.type
+                  {...SubLabel.props}
+                  key={horizontalStep.props.label}
+                  onClick={() =>
+                    activateHorizontalStep(horizontalStep.props.label)
+                  }
+                />
+              );
+            })}
+          </div>
+        ) : null}
 
-          {/* {!Array.isArray(horizontalSteps)
-            ? renderSingleSub : null} */}
-        </div>
-
-        {horizontalSteps[activeSubStep].props.children({
-          goPrevious,
-          goNext,
-        })}
+        {multipleSubSteps
+          ? horizontalSteps[activeSubStep].props.children({
+              goPrevious,
+              goNext,
+            })
+          : (
+              horizontalSteps as React.ReactElement<IHorizontalStep>
+            ).props.children({
+              goPrevious,
+              goNext,
+            })}
       </div>
     </div>
   );
