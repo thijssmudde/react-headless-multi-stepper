@@ -1,35 +1,42 @@
 import React from "react";
-import {
-  HorizontalStep,
-  IHorizontalStep,
-} from "../HorizontalStep/HorizontalStep";
-import { IVerticalStep, VerticalStep } from "../VerticalStep/VerticalStep";
+import { HorizontalStep, IHorizontalStep } from "../Step/HorizontalStep";
+import { IVerticalStep, VerticalStep } from "../Step/VerticalStep";
 
 interface IMultiStepperProps {
   dataTestId?: string;
-  renderMainLabel: (label: string) => React.ReactElement;
-  renderSubLabel: (label: string) => React.ReactElement;
+  /**
+   * Root element of the MultiStepper.
+   */
+  RootContainer: React.ReactElement;
+  /**
+   * Render prop for the label of the vertical step
+   */
+  renderMainLabel: (label: string, name: string) => React.ReactElement;
+  /**
+   * Render prop for the label of the horizontal step
+   */
+  renderSubLabel: (label: string, name: string) => React.ReactElement;
   /**
    * Fires on completion of the entire flow
    */
   onCompleted: () => void;
-  className?: string;
+  /**
+   * A number of vertical steps can be passed.
+   */
   children: React.ReactElement<IVerticalStep>[];
 }
 
 // @TODO check preconditions
-// >= 1 main step
-// >= 1 sub step per main step
-// labels of main steps must be unique
-// labels of sub steps must be unique
-// @TODO add disabledMainSteps
-// @TODO add disabledSubSteps
+// - > 1 main step
+// - >= 1 sub step per main step
+// @TODO add disabledMainSteps: through props of VerticalStep
+// @TODO add disabledSubSteps: through props of Horizontaltep
 const MultiStepperRoot = ({
   dataTestId,
   renderMainLabel,
   renderSubLabel,
   onCompleted,
-  className,
+  RootContainer,
   children,
 }: IMultiStepperProps) => {
   const verticalSteps = children;
@@ -39,18 +46,53 @@ const MultiStepperRoot = ({
   const horizontalSteps = verticalSteps[activeMainStep].props
     .children as React.ReactElement<IHorizontalStep>[];
 
-  const activateVerticalStep = (label: string) => {
+  // Names of all main steps should be unique
+  React.useMemo(() => {
+    const verticalNames = verticalSteps.map(({ props: { name } }) => name);
+
+    if (verticalNames.length !== new Set(verticalNames).size) {
+      throw new Error(
+        `Names for vertical steps: ${verticalNames.join(", ")} are not unique`,
+      );
+    }
+  }, [horizontalSteps]);
+
+  // Names of all sub steps should be unique
+  React.useMemo(() => {
+    const horizontalNames = verticalSteps
+      .map(({ props: { children } }) => children)
+      .map((horizontalStep) => {
+        if (Array.isArray(horizontalStep)) {
+          return horizontalStep.map(({ props: { name } }) => name);
+        } else {
+          return (
+            horizontalSteps as unknown as React.ReactElement<IHorizontalStep>
+          ).props.name;
+        }
+      })
+      .flat();
+
+    if (horizontalNames.length !== new Set(horizontalNames).size) {
+      throw new Error(
+        `Names for horizontal steps: ${horizontalNames.join(
+          ", ",
+        )} are not unique`,
+      );
+    }
+  }, [horizontalSteps]);
+
+  const activateVerticalStep = (name: string) => {
     const activeVerticalStep = verticalSteps.findIndex(
-      (verticalStep) => verticalStep.props.label === label,
+      (verticalStep) => verticalStep.props.name === name,
     );
 
     setActiveMainStep(activeVerticalStep);
     setActiveSubStep(0);
   };
 
-  const activateHorizontalStep = (label: string) => {
+  const activateHorizontalStep = (name: string) => {
     const activeHorizontalStep = horizontalSteps.findIndex(
-      (horizontalStep) => horizontalStep.props.label === label,
+      (horizontalStep) => horizontalStep.props.name === name,
     );
 
     setActiveSubStep(activeHorizontalStep);
@@ -69,7 +111,8 @@ const MultiStepperRoot = ({
       (activeMainStep + 1 >= verticalSteps.length &&
         activeSubStep + 1 >= horizontalSteps.length) ||
       // There is only one substep
-      horizontalSteps.length === undefined
+      (horizontalSteps.length === undefined &&
+        activeMainStep + 1 >= verticalSteps.length)
     ) {
       onCompleted();
     }
@@ -87,23 +130,20 @@ const MultiStepperRoot = ({
     }
   };
 
-  console.log({ horizontalSteps });
-
   const multipleSubSteps = Array.isArray(horizontalSteps);
 
   return (
-    <div data-testid={dataTestId} className={className}>
+    <RootContainer.type data-testid={dataTestId} {...RootContainer.props}>
       <div className="flex">
-        {verticalSteps.map((verticalStep) => {
-          const MainLabel = renderMainLabel(verticalStep.props.label);
+        {/* Labels of the vertical steps */}
+        {verticalSteps.map(({ props: { label, name } }) => {
+          const MainLabel = renderMainLabel(label, name);
 
           return (
             <MainLabel.type
               {...MainLabel.props}
-              key={verticalStep.props.label}
-              onClick={() =>
-                activateVerticalStep(verticalStep.props.label as string)
-              }
+              key={name}
+              onClick={() => activateVerticalStep(name)}
             />
           );
         })}
@@ -112,16 +152,15 @@ const MultiStepperRoot = ({
       <div className="flex">
         {multipleSubSteps ? (
           <div>
-            {horizontalSteps.map((horizontalStep) => {
-              const SubLabel = renderSubLabel(horizontalStep.props.label);
+            {/* Labels of the horizontal steps */}
+            {horizontalSteps.map(({ props: { label, name } }) => {
+              const SubLabel = renderSubLabel(label, name);
 
               return (
                 <SubLabel.type
                   {...SubLabel.props}
-                  key={horizontalStep.props.label}
-                  onClick={() =>
-                    activateHorizontalStep(horizontalStep.props.label)
-                  }
+                  key={name}
+                  onClick={() => activateHorizontalStep(name)}
                 />
               );
             })}
@@ -134,18 +173,19 @@ const MultiStepperRoot = ({
               goNext,
             })
           : (
-              horizontalSteps as React.ReactElement<IHorizontalStep>
+              horizontalSteps as unknown as React.ReactElement<IHorizontalStep>
             ).props.children({
               goPrevious,
               goNext,
             })}
       </div>
-    </div>
+    </RootContainer.type>
   );
 };
 
 /**
- * Re-exports all components belonging to a Table from the Table namespace
+ * Multi progress stepper. MultiStepper accepts a number of VerticalStep components
+ * Each VerticalStep accepts one or multiple HorizontalStep components.
  */
 export const MultiStepper = Object.assign(MultiStepperRoot, {
   VerticalStep,

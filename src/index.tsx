@@ -1,3 +1,3 @@
-export * from "./HorizontalStep/HorizontalStep";
+export * from "./Step/HorizontalStep";
+export * from "./Step/VerticalStep";
 export * from "./MultiStepper/MultiStepper";
-export * from "./VerticalStep/VerticalStep";
