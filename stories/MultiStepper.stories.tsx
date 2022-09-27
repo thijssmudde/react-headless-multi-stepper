@@ -106,9 +106,9 @@ const MultiStepperStory: Story<IMultiStepperProps> = (args) => (
   </MultiStepper>
 );
 
-export const Default = MultiStepperStory.bind({});
+export const Multiple = MultiStepperStory.bind({});
 
-Default.args = {};
+Multiple.args = {};
 
 const SingleStepStory: Story<IMultiStepperProps> = (args) => (
   <MultiStepper
@@ -125,21 +125,7 @@ const SingleStepStory: Story<IMultiStepperProps> = (args) => (
       <MultiStepper.HorizontalStep name="1.1" label="1.1">
         {({ goPrevious, goNext }) => (
           <ExampleContent goPrevious={goPrevious} goNext={goNext}>
-            Content 1.1
-          </ExampleContent>
-        )}
-      </MultiStepper.HorizontalStep>
-      <MultiStepper.HorizontalStep name="1.2" label="1.2">
-        {({ goPrevious, goNext }) => (
-          <ExampleContent goPrevious={goPrevious} goNext={goNext}>
-            Content 1.2
-          </ExampleContent>
-        )}
-      </MultiStepper.HorizontalStep>
-      <MultiStepper.HorizontalStep name="1.3" label="1.3">
-        {({ goPrevious, goNext }) => (
-          <ExampleContent goPrevious={goPrevious} goNext={goNext}>
-            Content 1.3
+            Content step 1
           </ExampleContent>
         )}
       </MultiStepper.HorizontalStep>
@@ -148,7 +134,7 @@ const SingleStepStory: Story<IMultiStepperProps> = (args) => (
       <MultiStepper.HorizontalStep name="2.1" label="2.1">
         {({ goPrevious, goNext }) => (
           <ExampleContent goPrevious={goPrevious} goNext={goNext}>
-            Content 2.1
+            Content step 2
           </ExampleContent>
         )}
       </MultiStepper.HorizontalStep>
@@ -157,7 +143,7 @@ const SingleStepStory: Story<IMultiStepperProps> = (args) => (
       <MultiStepper.HorizontalStep name="3.1" label="3.1">
         {({ goPrevious, goNext }) => (
           <ExampleContent goPrevious={goPrevious} goNext={goNext}>
-            Content 3.1
+            Content step 3
           </ExampleContent>
         )}
       </MultiStepper.HorizontalStep>
@@ -165,9 +151,9 @@ const SingleStepStory: Story<IMultiStepperProps> = (args) => (
   </MultiStepper>
 );
 
-export const SingleStep = SingleStepStory.bind({});
+export const Single = SingleStepStory.bind({});
 
-SingleStep.args = {};
+Single.args = {};
 
 const NoMarkupStory: Story<IMultiStepperProps> = (args) => (
   <MultiStepper
@@ -214,6 +200,24 @@ const NoMarkupStory: Story<IMultiStepperProps> = (args) => (
         {({ goPrevious, goNext }) => (
           <div>
             Content 2.1
+            <button onClick={goPrevious}>previous</button>
+            <button onClick={goNext}>next</button>
+          </div>
+        )}
+      </MultiStepper.HorizontalStep>
+      <MultiStepper.HorizontalStep name="2.2" label="2.2">
+        {({ goPrevious, goNext }) => (
+          <div>
+            Content 2.2
+            <button onClick={goPrevious}>previous</button>
+            <button onClick={goNext}>next</button>
+          </div>
+        )}
+      </MultiStepper.HorizontalStep>
+      <MultiStepper.HorizontalStep name="2.3" label="2.3">
+        {({ goPrevious, goNext }) => (
+          <div>
+            Content 2.3
             <button onClick={goPrevious}>previous</button>
             <button onClick={goNext}>next</button>
           </div>
