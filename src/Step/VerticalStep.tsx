@@ -11,9 +11,8 @@ interface IVerticalStep {
    */
   label: string;
   /**
-   * Disable this step to skip it.
+   * A number of HorizontalStep components
    */
-  // disabled?: boolean;
   children:
     | React.ReactElement<IHorizontalStep>
     | React.ReactElement<IHorizontalStep>[];

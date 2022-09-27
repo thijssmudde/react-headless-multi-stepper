@@ -11,13 +11,12 @@ interface IHorizontalStep {
    */
   name: string;
   /**
-   * String that will be displayed to the user in stepper
+   * Display this value to the user in the stepper
    */
   label: string;
   /**
-   * Disable this step to skip it.
+   * Render prop for children
    */
-  // disabled?: boolean;
   children: ({
     goPrevious,
     goNext,
@@ -26,5 +25,5 @@ interface IHorizontalStep {
 
 const HorizontalStep = ({}: IHorizontalStep) => <></>;
 
-export type { IHorizontalStep };
+export type { IHorizontalStep, IHorizontalStepChildren };
 export { HorizontalStep };

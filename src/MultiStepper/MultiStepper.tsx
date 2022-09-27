@@ -28,12 +28,10 @@ interface IMultiStepperProps {
       activeIndex,
       label,
       name,
-    }: // disabled,
-    {
+    }: {
       activeIndex: number;
       label: string;
       name: string;
-      // disabled?: boolean;
     },
     index: number,
     array: T[],
@@ -46,12 +44,10 @@ interface IMultiStepperProps {
       activeIndex,
       label,
       name,
-    }: // disabled,
-    {
+    }: {
       activeIndex: number;
       label: string;
       name: string;
-      // disabled?: boolean;
     },
     index: number,
     array: T[],
@@ -66,16 +62,15 @@ interface IMultiStepperProps {
   children: React.ReactElement<IVerticalStep>[];
 }
 
-// @TODO finish disabled mainStep/subStep
 const MultiStepperRoot = ({
   dataTestId,
-  renderMainLabel,
-  renderSubLabel,
-  onCompleted,
   RootContainer = <div />,
   MainLabelContainer = <div />,
   SubLabelContainer = <div />,
   ContentContainer = <div />,
+  renderMainLabel,
+  renderSubLabel,
+  onCompleted,
   children,
 }: IMultiStepperProps) => {
   const verticalSteps = children;
@@ -104,21 +99,11 @@ const MultiStepperRoot = ({
       .map(({ props: { children } }) => children)
       .map((horizontalStep) => {
         if (Array.isArray(horizontalStep)) {
-          return horizontalStep.map(
-            ({
-              props: {
-                name,
-                // disabled
-              },
-            }) =>
-              // disabled ? undefined : name,
-              name,
-          );
+          return horizontalStep.map(({ props: { name } }) => name);
         } else {
           const step =
             horizontalStep as unknown as React.ReactElement<IHorizontalStep>;
 
-          // return step.props.disabled ? undefined : step.props.name;
           return step.props.name;
         }
       })
@@ -206,12 +191,7 @@ const MultiStepperRoot = ({
             <MainLabel.type
               {...MainLabel.props}
               key={props.name}
-              onClick={
-                () =>
-                  // !props.disabled ?
-                  activateVerticalStep(props.name)
-                //  : undefined
-              }
+              onClick={() => activateVerticalStep(props.name)}
             />
           );
         })}
@@ -232,12 +212,7 @@ const MultiStepperRoot = ({
                 <SubLabel.type
                   {...SubLabel.props}
                   key={props.name}
-                  onClick={
-                    () =>
-                      // !props.disabled ?
-                      activateHorizontalStep(props.name)
-                    // : undefined
-                  }
+                  onClick={() => activateHorizontalStep(props.name)}
                 />
               );
             })}
@@ -245,11 +220,13 @@ const MultiStepperRoot = ({
         ) : null}
 
         {multipleSubSteps
-          ? horizontalSteps[activeSubStep].props.children({
+          ? // If multiple sub steps, render the active substep
+            horizontalSteps[activeSubStep].props.children({
               goPrevious,
               goNext,
             })
-          : (
+          : // Otherwise render the single sub step
+            (
               horizontalSteps as unknown as React.ReactElement<IHorizontalStep>
             ).props.children({
               goPrevious,

@@ -2,6 +2,7 @@ import React from "react";
 import { Meta, Story } from "@storybook/react";
 import classNames from "classnames";
 import { MultiStepper, IMultiStepperProps } from "../src";
+import { ExampleContent } from "./ExampleContent";
 import "./tailwind.css";
 
 const meta: Meta = {
@@ -21,42 +22,10 @@ const meta: Meta = {
 
 export default meta;
 
-const ExampleContent = ({
-  goPrevious,
-  goNext,
-  children,
-}: {
-  goPrevious: () => void;
-  goNext: () => void;
-  children: React.ReactNode;
-}) => {
-  return (
-    <div className="flex flex-col w-full pt-16 pl-10">
-      <span className="flex-grow text-pink-500">{children}</span>
-      <div className="ml-auto">
-        <button
-          type="button"
-          className="px-4 py-2 m-2 text-white transition duration-500 bg-pink-400 border border-pink-400 rounded-md select-none ease hover:bg-pink-500 focus:outline-none focus:shadow-outline"
-          onClick={goPrevious}
-        >
-          Previous
-        </button>
-        <button
-          type="button"
-          className="px-4 py-2 m-2 text-white transition duration-500 bg-pink-500 border border-pink-500 rounded-md select-none ease hover:bg-pink-600 focus:outline-none focus:shadow-outline"
-          onClick={goNext}
-        >
-          Next
-        </button>
-      </div>
-    </div>
-  );
-};
-
 const MultiStepperStory: Story<IMultiStepperProps> = (args) => (
   <MultiStepper
     {...args}
-    RootContainer={<div className="flex flex-col " />}
+    RootContainer={<div className="flex flex-col" />}
     MainLabelContainer={<ul className="flex justify-between w-full ml-20" />}
     SubLabelContainer={<ul />}
     ContentContainer={<div className="flex" />}
@@ -64,7 +33,7 @@ const MultiStepperStory: Story<IMultiStepperProps> = (args) => (
     renderMainLabel={({ activeIndex, label }, index, verticalSteps) => (
       <li
         className={classNames(
-          "flex items-start w-full cursor-pointer",
+          "flex items-start w-full cursor-pointer after:mt-[9px]",
           {
             "text-pink-500": index <= activeIndex,
           },
@@ -200,15 +169,12 @@ const SingleStepStory: Story<IMultiStepperProps> = (args) => (
     SubLabelContainer={<div />}
     ContentContainer={<div className="flex" />}
     onCompleted={() => alert("onCompleted")}
-    renderMainLabel={({
-      label,
-      name,
-      //disabled
-    }) => <div className="cursor-pointer">{label}</div>}
-    renderSubLabel={({
-      label,
-      name, //disabled
-    }) => <div className="cursor-pointer">{label}</div>}
+    renderMainLabel={({ label }) => (
+      <div className="cursor-pointer">{label}</div>
+    )}
+    renderSubLabel={({ label }) => (
+      <div className="cursor-pointer">{label}</div>
+    )}
   >
     <MultiStepper.VerticalStep name="1" label="step 1">
       <MultiStepper.HorizontalStep name="1.1" label="1.1">
