@@ -1,66 +1,7 @@
 import React from "react";
-import { HorizontalStep, IHorizontalStep } from "../Step/HorizontalStep";
-import { IVerticalStep, VerticalStep } from "../Step/VerticalStep";
-
-interface IMultiStepperProps {
-  dataTestId?: string;
-  /**
-   * Root element of the MultiStepper.
-   */
-  RootContainer?: React.ReactElement;
-  /**
-   * Containing element for the main labels
-   */
-  MainLabelContainer?: React.ReactElement;
-  /**
-   * Containing element for the sub labels
-   */
-  SubLabelContainer?: React.ReactElement;
-  /**
-   * Containing element for the SubLabelContainer and step content
-   */
-  ContentContainer?: React.ReactElement;
-  /**
-   * Render prop for the label of the vertical step
-   */
-  renderMainLabel: <T extends unknown>(
-    {
-      activeIndex,
-      label,
-      name,
-    }: {
-      activeIndex: number;
-      label: string;
-      name: string;
-    },
-    index: number,
-    array: T[],
-  ) => React.ReactElement;
-  /**
-   * Render prop for the label of the horizontal step
-   */
-  renderSubLabel: <T extends unknown>(
-    {
-      activeIndex,
-      label,
-      name,
-    }: {
-      activeIndex: number;
-      label: string;
-      name: string;
-    },
-    index: number,
-    array: T[],
-  ) => React.ReactElement;
-  /**
-   * Fires on completion of the entire flow
-   */
-  onCompleted: () => void;
-  /**
-   * A number of vertical steps can be passed.
-   */
-  children: React.ReactElement<IVerticalStep>[];
-}
+import { IHorizontalStep, IMultiStepperProps } from "../@interfaces/types.d";
+import { HorizontalStep } from "../Step/HorizontalStep";
+import { VerticalStep } from "../Step/VerticalStep";
 
 const MultiStepperRoot = ({
   dataTestId,
@@ -178,14 +119,13 @@ const MultiStepperRoot = ({
       <MainLabelContainer.type {...MainLabelContainer.props}>
         {/* Labels of the vertical steps */}
         {verticalSteps.map(({ props }, index, array) => {
-          const MainLabel = renderMainLabel(
-            {
-              ...props,
-              activeIndex: activeMainStep,
-            },
+          const MainLabel = renderMainLabel({
+            activeIndex: activeMainStep,
+            label: props.label,
+            name: props.name,
             index,
             array,
-          );
+          });
 
           return (
             <MainLabel.type
@@ -202,11 +142,13 @@ const MultiStepperRoot = ({
           <SubLabelContainer.type {...SubLabelContainer.props}>
             {/* Labels of the horizontal steps */}
             {horizontalSteps.map(({ props }, index, array) => {
-              const SubLabel = renderSubLabel(
-                { ...props, activeIndex: activeSubStep },
+              const SubLabel = renderSubLabel({
+                activeIndex: activeSubStep,
+                label: props.label,
+                name: props.name,
                 index,
                 array,
-              );
+              });
 
               return (
                 <SubLabel.type
@@ -251,5 +193,3 @@ export const MultiStepper = Object.assign(MultiStepperRoot, {
    */
   HorizontalStep,
 });
-
-export type { IMultiStepperProps };
