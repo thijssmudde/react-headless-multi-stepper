@@ -16,9 +16,9 @@ Design your own Multi Stepper component without having to worry about the logic?
 yarn add react-headless-multi-stepper
 ```
 
-<!-- ## Demo: Unstyled & TailwindCSS
+## Demo: Unstyled & TailwindCSS
 
-[Storybook](https://deploy-preview-1--react-headless-pagination.netlify.app) -->
+[Storybook](https://react-headlesss-multi-stepper.netlify.app/)
 
 ## Usage
 
