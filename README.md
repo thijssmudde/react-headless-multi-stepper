@@ -1,6 +1,6 @@
 # React Headless Multi Stepper
 
-Design your own Multi Stepper component without having to worry about the logic? Then this tiny and performant package is for you. `react-headless-multi-stepper` is ideal if you are working with a utility-based css framework like TailwindCSS. `react-headless-multi-stepper` offers plenty of customization through generics and is also fully typed.
+Design your own Multi Stepper component without having to worry about the logic. Then this tiny and performant package is for you. `react-headless-multi-stepper` is ideal if you are working with a utility-based css framework like TailwindCSS. `react-headless-multi-stepper` offers plenty of customization through generics and is also fully typed.
 
 [![npm](https://img.shields.io/npm/v/react-headless-multi-stepper)](https://www.npmjs.com/package/react-headless-multi-stepper)
 
@@ -131,7 +131,7 @@ The following table contains all optional and required props for the MultiSteppe
 | children\*         | `React.ReactElement <IVerticalStep>[]` |         | A number of VerticalStep components.                                                          |
 
 \*these are required \
-\*\*IRenderLabel contains all information to render your horizontal or vertical (i.e. label activeIndex, label, name, index, array).
+\*\*IRenderLabel contains all information to render your horizontal or vertical label (i.e. activeIndex, label, name, index, array).
 
 ## VerticalStep props
 
