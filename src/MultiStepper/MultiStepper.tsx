@@ -1,5 +1,5 @@
 import React from "react";
-import { IHorizontalStep, IMultiStepperProps } from "../@interfaces/types.d";
+import { IHorizontalStep, IMultiStepperProps } from "../@interfaces/types";
 import { HorizontalStep } from "../Step/HorizontalStep";
 import { VerticalStep } from "../Step/VerticalStep";
 

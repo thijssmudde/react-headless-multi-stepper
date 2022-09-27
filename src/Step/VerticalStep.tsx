@@ -1,5 +1,5 @@
 import React from "react";
-import { IVerticalStep } from "../@interfaces/types.d";
+import { IVerticalStep } from "../@interfaces/types";
 
 const VerticalStep = ({}: IVerticalStep) => <></>;
 

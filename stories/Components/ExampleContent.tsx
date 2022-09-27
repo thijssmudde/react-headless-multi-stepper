@@ -1,5 +1,5 @@
 import React from "react";
-import { IHorizontalStepChildren } from "../src";
+import { IHorizontalStepChildren } from "../../src";
 
 interface IExampeContent extends IHorizontalStepChildren {
   children: React.ReactNode;

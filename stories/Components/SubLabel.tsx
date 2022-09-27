@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import { IRenderLabel } from "../src";
+import { IRenderLabel } from "../../src";
 
 const SubLabel: IRenderLabel = ({
   activeIndex,
