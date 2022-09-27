@@ -11,6 +11,7 @@ const MultiStepperRoot = ({
   ContentContainer = <div />,
   renderMainLabel,
   renderSubLabel,
+  onChange,
   onCompleted,
   children,
 }: IMultiStepperProps) => {
@@ -114,6 +115,20 @@ const MultiStepperRoot = ({
 
   const multipleSubSteps = Array.isArray(horizontalSteps);
 
+  const firstUpdate = React.useRef(true);
+  React.useEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    onChange(
+      multipleSubSteps
+        ? horizontalSteps[activeSubStep].props.name
+        : (horizontalSteps as unknown as React.ReactElement<IHorizontalStep>)
+            .props.name,
+    );
+  }, [activeSubStep, horizontalSteps, multipleSubSteps]);
+
   return (
     <RootContainer.type data-testid={dataTestId} {...RootContainer.props}>
       <MainLabelContainer.type {...MainLabelContainer.props}>
@@ -162,12 +177,12 @@ const MultiStepperRoot = ({
         ) : null}
 
         {multipleSubSteps
-          ? // If multiple sub steps, render the active substep
+          ? // If multiple sub steps, render the active substep children
             horizontalSteps[activeSubStep].props.children({
               goPrevious,
               goNext,
             })
-          : // Otherwise render the single sub step
+          : // Otherwise render the single sub step children
             (
               horizontalSteps as unknown as React.ReactElement<IHorizontalStep>
             ).props.children({

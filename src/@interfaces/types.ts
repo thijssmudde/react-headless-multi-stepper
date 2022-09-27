@@ -48,6 +48,11 @@ interface IMultiStepperProps {
    */
   renderSubLabel: IRenderLabel;
   /**
+   * Fires for every next and previous navigation action.
+   * Name refers to the newly activated step
+   */
+  onChange: (name: string) => void;
+  /**
    * Fires on completion of the entire flow
    */
   onCompleted: () => void;

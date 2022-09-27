@@ -30,6 +30,7 @@ const MultiStepperStory: Story<IMultiStepperProps> = (args) => (
     MainLabelContainer={<ul className="flex justify-between w-full pl-20" />}
     SubLabelContainer={<ul className="w-11" />}
     ContentContainer={<div className="flex" />}
+    onChange={(name) => console.log({ name })}
     onCompleted={() => alert("onCompleted")}
     renderMainLabel={(props) => <MainLabel {...props} />}
     renderSubLabel={(props) => <SubLabel {...props} />}
@@ -117,6 +118,7 @@ const SingleStepStory: Story<IMultiStepperProps> = (args) => (
     MainLabelContainer={<ul className="flex justify-between w-full pl-20" />}
     SubLabelContainer={<ul className="w-11" />}
     ContentContainer={<div className="flex" />}
+    onChange={(name) => console.log({ name })}
     onCompleted={() => alert("onCompleted")}
     renderMainLabel={(props) => <MainLabel {...props} />}
     renderSubLabel={(props) => <SubLabel {...props} />}
@@ -162,6 +164,7 @@ const NoMarkupStory: Story<IMultiStepperProps> = (args) => (
     MainLabelContainer={<ul />}
     SubLabelContainer={<ul />}
     ContentContainer={<div />}
+    onChange={(name) => console.log({ name })}
     onCompleted={() => alert("onCompleted")}
     renderMainLabel={(props) => <li>{props.label}</li>}
     renderSubLabel={(props) => <li>{props.label}</li>}
