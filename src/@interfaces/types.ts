@@ -57,7 +57,7 @@ interface IMultiStepperProps {
    */
   onCompleted: () => void;
   /**
-   * A number of vertical steps can be passed.
+   * A number of VerticalStep components.
    */
   children: React.ReactElement<IVerticalStep>[];
 }
@@ -85,7 +85,7 @@ interface IVerticalStep {
    */
   name: string;
   /**
-   * String that will be displayed to the user in stepper
+   * Display this value to the user in the stepper
    */
   label: string;
   /**

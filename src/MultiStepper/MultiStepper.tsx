@@ -6,8 +6,8 @@ import { VerticalStep } from "../Step/VerticalStep";
 const MultiStepperRoot = ({
   dataTestId,
   RootContainer = <div />,
-  MainLabelContainer = <div />,
-  SubLabelContainer = <div />,
+  MainLabelContainer = <ul />,
+  SubLabelContainer = <ul />,
   ContentContainer = <div />,
   renderMainLabel,
   renderSubLabel,

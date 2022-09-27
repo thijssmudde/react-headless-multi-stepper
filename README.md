@@ -2,164 +2,162 @@
 
 Design your own Multi Stepper component without having to worry about the logic? Then this tiny and performant package is for you. `react-headless-multi-stepper` is ideal if you are working with a utility-based css framework like TailwindCSS. `react-headless-multi-stepper` offers plenty of customization through generics and is also fully typed.
 
-[![npm](https://img.shields.io/npm/v/react-headless-pagination)](https://www.npmjs.com/package/react-headless-pagination)
-![Jest unit tests](https://github.com/fullhdpixel/react-headless-pagination/actions/workflows/main.yml/badge.svg)
-![code coverage](https://img.shields.io/badge/Code%20Coverage-100%25-success?style=flat)
-[![issues](https://img.shields.io/github/issues/fullhdpixel/react-headless-pagination)](https://github.com/fullhdpixel/react-headless-pagination/issues)
-[![stargazers](https://img.shields.io/github/stars/fullhdpixel/react-headless-pagination)](https://github.com/fullhdpixel/react-headless-pagination)
+[![npm](https://img.shields.io/npm/v/react-headless-multi-stepper)](https://www.npmjs.com/package/react-headless-multi-stepper)
+
+<!-- ![Jest unit tests](https://github.com/fullhdpixel/react-headless-multi-stepper/actions/workflows/main.yml/badge.svg) -->
+<!-- ![code coverage](https://img.shields.io/badge/Code%20Coverage-100%25-success?style=flat) -->
+
+[![issues](https://img.shields.io/github/issues/fullhdpixel/react-headless-multi-stepper)](https://github.com/fullhdpixel/react-headless-multi-stepper/issues)
+[![stargazers](https://img.shields.io/github/stars/fullhdpixel/react-headless-multi-stepper)](https://github.com/fullhdpixel/react-headless-multi-stepper)
 
 ## Install
 
 ```sh
-yarn add react-headless-pagination
+yarn add react-headless-multi-stepper
 ```
 
-## Demo: Unstyled & TailwindCSS
+<!-- ## Demo: Unstyled & TailwindCSS
 
-[Storybook](https://deploy-preview-1--react-headless-pagination.netlify.app)
+[Storybook](https://deploy-preview-1--react-headless-pagination.netlify.app) -->
 
 ## Usage
 
 ```tsx
-import { Pagination } from "react-headless-pagination";
-
+import { MultiStepper } from "react-headless-multi-stepper";
 
 ...
-const [page, setPage] = React.useState<number>(0);
-
-const handlePageChange = (page: number) => {
-  setPage(page);
-};
-
 return (
-  <>
-    Current page: {page}
-    <Pagination
-      currentPage={page}
-      setCurrentPage={handlePageChange}
-      totalPages={10}
-      edgePageCount={2}
-      middlePagesSiblingCount={2}
-      className=""
-      truncableText="..."
-      truncableClassName=""
-    >
-      <Pagination.PrevButton className="">Previous</Pagination.PrevButton>
-
-      <div className="flex items-center justify-center flex-grow">
-        <Pagination.PageButton
-          activeClassName=""
-          inactiveClassName=""
-          className=""
-        />
-      </div>
-
-      <Pagination.NextButton className="">Next</Pagination.NextButton>
-    </Pagination>
-  </>
+  <MultiStepper
+    {...args}
+    RootContainer={<div />}
+    MainLabelContainer={<ul />}
+    SubLabelContainer={<ul />}
+    ContentContainer={<div />}
+    onChange={(step)}
+    onCompleted={() => alert("onCompleted")}
+    renderMainLabel={(props) => <li>{props.label}</li>}
+    renderSubLabel={(props) => <li>{props.label}</li>}
+  >
+    <MultiStepper.VerticalStep name="1" label="step 1">
+      <MultiStepper.HorizontalStep name="1.1" label="1.1">
+        {({ goPrevious, goNext }) => (
+          <div>
+            Content 1.1
+            <button onClick={goPrevious}>previous</button>
+            <button onClick={goNext}>next</button>
+          </div>
+        )}
+      </MultiStepper.HorizontalStep>
+      <MultiStepper.HorizontalStep name="1.2" label="1.2">
+        {({ goPrevious, goNext }) => (
+          <div>
+            Content 1.2
+            <button onClick={goPrevious}>previous</button>
+            <button onClick={goNext}>next</button>
+          </div>
+        )}
+      </MultiStepper.HorizontalStep>
+      <MultiStepper.HorizontalStep name="1.3" label="1.3">
+        {({ goPrevious, goNext }) => (
+          <div>
+            Content 1.3
+            <button onClick={goPrevious}>previous</button>
+            <button onClick={goNext}>next</button>
+          </div>
+        )}
+      </MultiStepper.HorizontalStep>
+    </MultiStepper.VerticalStep>
+    <MultiStepper.VerticalStep name="2" label="step 2">
+      <MultiStepper.HorizontalStep name="2.1" label="2.1">
+        {({ goPrevious, goNext }) => (
+          <div>
+            Content 2.1
+            <button onClick={goPrevious}>previous</button>
+            <button onClick={goNext}>next</button>
+          </div>
+        )}
+      </MultiStepper.HorizontalStep>
+      <MultiStepper.HorizontalStep name="2.2" label="2.2">
+        {({ goPrevious, goNext }) => (
+          <div>
+            Content 2.2
+            <button onClick={goPrevious}>previous</button>
+            <button onClick={goNext}>next</button>
+          </div>
+        )}
+      </MultiStepper.HorizontalStep>
+      <MultiStepper.HorizontalStep name="2.3" label="2.3">
+        {({ goPrevious, goNext }) => (
+          <div>
+            Content 2.3
+            <button onClick={goPrevious}>previous</button>
+            <button onClick={goNext}>next</button>
+          </div>
+        )}
+      </MultiStepper.HorizontalStep>
+    </MultiStepper.VerticalStep>
+    <MultiStepper.VerticalStep name="3" label="step 3">
+      <MultiStepper.HorizontalStep name="3.1" label="3.1">
+        {({ goPrevious, goNext }) => (
+          <div>
+            Content 3.1
+            <button onClick={goPrevious}>previous</button>
+            <button onClick={goNext}>next</button>
+          </div>
+        )}
+      </MultiStepper.HorizontalStep>
+    </MultiStepper.VerticalStep>
+  </MultiStepper>
 );
 ```
 
-An example of a styled version can be found in stories/PaginationTailwind.stories.tsx.
+An example of a styled version can be found in stories/MultiStepper.stories.tsx.
 
-## Pagination props
+## MultiStepper props
 
-### `currentPage`
+The following table contains all optional and required props for the MultiStepper. The library is strictly typed and uses generics to support many different kinds of data.
 
-Type: `number`
+| Name               | Type                                   | Default | Description                                                                                   |
+| ------------------ | -------------------------------------- | ------- | --------------------------------------------------------------------------------------------- |
+| dataTestId         | `string`                               |         | Places a data-testid on several elements                                                      |
+| RootContainer      | `React.ReactElement`                   | `div`   | Root element of the MultiStepper.                                                             |
+| MainLabelContainer | `React.ReactElement`                   | `ul`    | Containing element for the main labels.                                                       |
+| SubLabelContainer  | `React.ReactElement`                   | `ul`    | Containing element for the sub labels.                                                        |
+| ContentContainer   | `React.ReactElement`                   | `div`   | Containing element for the SubLabelContainer and step content.                                |
+| renderMainLabel\*  | `IRenderLabel`\*\*                     |         | Render prop for the label of the vertical step.                                               |
+| renderSubLabel\*   | `IRenderLabel`\*\*                     |         | Render prop for the label of the horizontal step.                                             |
+| onChange\*         | `(name: string) => void`               |         | Fires for every next and previous navigation action. Name refers to the newly activated step. |
+| onCompleted\*      | `() => void`                           |         | Fires on completion of the entire flow.                                                       |
+| children\*         | `React.ReactElement <IVerticalStep>[]` |         | A number of VerticalStep components.                                                          |
 
-The value of current page. Required.
+\*these are required \
+\*\*IRenderLabel contains all information to render your horizontal or vertical (i.e. label activeIndex, label, name, index, array).
 
-### `setCurrentPage`
+## VerticalStep props
 
-Type: `(page: number) => void`
+The following table contains all optional and required props for the VerticalStep component. VerticalSteps are placed as children inside the MultiStepper.
 
-Callback function once a page is updated. Can be directly used with a setState (see example above).
+| Name       | Type                                                                             | Description                                             |
+| ---------- | -------------------------------------------------------------------------------- | ------------------------------------------------------- |
+| name\*     | `string`                                                                         | Unique string to distinguish between all vertical steps |
+| label\*    | `string`                                                                         | Display this value to the user in the stepper.          |
+| children\* | `React.ReactElement<IHorizontalStep>` or `React.ReactElement<IHorizontalStep>[]` | A number of HorizontalStep components.                  |
 
-### `totalPages`
+\*these are required
 
-Type: `number`
+## HorizontalStep props
 
-The number pages. Required.
+The following table contains all optional and required props for the HorizontalStep component. HorizontalSteps are placed as children inside the VerticalStep.
 
-### `edgePageCount`
+| Name       | Type                    | Description                                               |
+| ---------- | ----------------------- | --------------------------------------------------------- |
+| name\*     | `string`                | Unique string to distinguish between all horizontal steps |
+| label\*    | `string`                | Display this value to the user in the stepper.            |
+| children\* | `({goPrevious,goNext})` | Render prop for children                                  |
 
-Type: `number`
-
-The items size of one side of the edge of pagination. Default: 2
-
-### `middlePagesSiblingCount`
-
-Type: `number`
-
-The items size of one side of the middle of pagination. Default: 2
-
-### `className`
-
-Type: `string`
-
-Styles for the pagination container.
-
-### `truncableText`
-
-Type: `string`
-
-Text to render if a one or more pages are truncated.
-
-### `truncableClassName`
-
-Type: `string`
-
-Styles which can be applied to the TruncableElement.
-
-## Pagination.PrevButton props
-
-### `children`
-
-Type: `string | React.ReactNode`
-
-Content for the previous button.
-
-### `className`
-
-Type: `string`
-
-Styles for the previous button.
-
-## Pagination.NextButton props
-
-### `children`
-
-Type: `string | React.ReactNode`
-
-Content for the next button.
-
-### `className`
-
-Type: `string`
-
-Styles for the next button.
-
-## Pagination.PageButton props
-
-### `className`
-
-Type: `string`
-
-### `activeClassName`
-
-Type: `boolean`
-
-Styles in case the page button is active.
-
-### `inactiveClassName`
-
-Type: `boolean`
-
-Styles in case the page button is inactive.
+\*these are required \
+\*\* IHorizontalStep: goPrevious and goNext are both callback functions that return nothing.
 
 ## Authors
 
-- [fullhdpixel](https://github.com/fullhdpixel)
-
-Taken inspiration from [@makotot/paginated](https://github.com/makotot/GhostUI).
+- [Fullhdpixel](https://github.com/fullhdpixel)
