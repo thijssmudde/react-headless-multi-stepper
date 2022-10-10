@@ -1,6 +1,7 @@
 import React from "react";
 import classNames from "classnames";
 import { IRenderLabel } from "../../src";
+import "../../src/MultiStepper/stepper.css";
 
 const MainLabel: IRenderLabel = ({
   activeIndex,
@@ -12,13 +13,13 @@ const MainLabel: IRenderLabel = ({
     className={classNames(
       "flex w-full cursor-pointer",
       {
-        "text-violet-500": index <= activeIndex,
+        "text-violet-500 relative": index <= activeIndex,
       },
       index !== verticalSteps.length - 1
         ? {
-            "after:h-[2px] after:w-full after:mt-[9px] after:ml-[20px] after:mr-[-20px]":
+            "line after:h-[2px] after:w-full after:mt-[9px] after:ml-[20px] after:mr-[-20px]":
               true,
-            "after:bg-violet-500": index < activeIndex,
+            "line--active": index < activeIndex,
             "after:bg-gray-300": index >= activeIndex,
           }
         : null,
@@ -26,8 +27,8 @@ const MainLabel: IRenderLabel = ({
   >
     <div className="absolute flex flex-col items-center">
       <div
-        className={classNames("w-5 h-5 rounded-full", {
-          "bg-violet-500": index <= activeIndex,
+        className={classNames("orb-top", {
+          "orb-top--active before:bg-violet-500": index <= activeIndex,
           "bg-gray-300": index > activeIndex,
         })}
       />
