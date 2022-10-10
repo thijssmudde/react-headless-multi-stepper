@@ -1,0 +1,68 @@
+.orb-top {
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50%;
+}
+
+.orb-top--active {
+    background-color: #8B5CF6;
+    transition: all linear 0.3s;
+    transition-delay: 0.3s;
+}
+
+.line::before {
+    content: '';
+    position: absolute;
+    top: 9px;
+    left: 16px;
+    width: 0;
+    height: 2px;
+    background-color: #8B5CF6;
+    transition: all linear 0.3s;
+}
+
+.line--active::before {
+    content: "";
+    width: 100%;
+}
+
+.line--active::after {
+    background-color: #D1D5DA;
+}
+
+.v_line::before {
+    position: absolute;
+    width: 2px;
+    left: 5px;
+}
+
+.v_line::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 5px;
+    width: 2px;
+    height: 0;
+    background-color: #8B5CF6;
+    transition: all linear 0.3s;
+}
+
+.v_line--active::after {
+    content: "";
+    height: 100%;
+}
+
+.v_line--active::before {
+    background-color: #D1D5DA;
+}
+
+.orb {
+    min-width: 0.75rem;
+    min-height: 0.75rem;
+}
+
+.orb--active {
+    background-color: #8B5CF6;
+    transition: all linear 0.3s;
+    transition-delay: 0.3s;
+}
